@@ -15,31 +15,12 @@
 
 void free_memory(cairocharts_payload *, sll *);
 /* This function takes the data from the stdio and it stores into the custom sentinel linked list */
-void get_data_from_std(sll *);
+int get_data_from_std(sll *);
 void print_data(cairocharts_payload *, sll * );
+int create_cairocharts(cairocharts_payload *, sll *);
 
 void my_print(void *node){
     printf("%0.2f ",*sll_get_data(node,float));
-}
-
-void create_cairocharts(cairocharts_payload * my_payload, sll *float_std_sll){
-    
-    cairo_surface_t *surface;
-    cairo_t *cr;
-    surface = cairo_pdf_surface_create(my_payload->output, my_payload->width, my_payload->height);
-    cr = cairo_create (surface);
-    
-    cairo_set_line_width (cr, 0.1);
-    cairo_set_source_rgb (cr, 0, 0, 0);
-    cairo_rectangle (cr, 0.25, 0.25, 0.5, 0.5);
-    cairo_stroke (cr);
-    
-    cairo_show_page(cr);
-    cairo_destroy(cr);
-    cairo_surface_flush(surface);
-    cairo_surface_destroy(surface);
-    
-
 }
 
 int main(int argc, const char * argv[]) {
@@ -49,10 +30,14 @@ int main(int argc, const char * argv[]) {
     sll *float_std_sll;
     
     float_std_sll = sll_init(sizeof(float));
+    if(!float_std_sll)
+        return EXIT_FAILURE;
     
     /* get data */
     my_payload = get_cairocharts_payload(argc,argv);
-    get_data_from_std(float_std_sll);
+    if(!get_data_from_std(float_std_sll))
+        return EXIT_FAILURE;
+    
     /* print data */
     print_data(my_payload,float_std_sll);
     
@@ -60,7 +45,7 @@ int main(int argc, const char * argv[]) {
     
     free_memory(my_payload,float_std_sll);
     
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 void print_data(cairocharts_payload * my_payload, sll * my_sll){
@@ -72,8 +57,34 @@ void print_data(cairocharts_payload * my_payload, sll * my_sll){
     putchar(']');
     putchar('\n');
 
-
 }
+
+int create_cairocharts(cairocharts_payload * my_payload, sll *float_std_sll){
+    
+    cairo_surface_t *surface;
+    cairo_t *cr;
+    surface = cairo_pdf_surface_create(my_payload->output, my_payload->width, my_payload->height);
+    if (cairo_surface_status(surface) != CAIRO_STATUS_SUCCESS) {
+        printf("Error creating cairo surface\n");
+        return 0;
+    }
+
+    cr = cairo_create (surface);
+    
+    cairo_set_line_width (cr, 0.1);
+    cairo_set_source_rgb (cr, 0, 0, 0);
+    cairo_rectangle (cr, 0.25, 0.25, my_payload->width-0.5, my_payload->height-0.5);
+    cairo_stroke (cr);
+    
+    cairo_show_page(cr);
+    cairo_destroy(cr);
+    cairo_surface_flush(surface);
+    cairo_surface_destroy(surface);
+    
+    return 1;
+    
+}
+
 
 void free_memory(cairocharts_payload * my_payload, sll* my_sll){
     cairocharts_destroy(my_payload);
@@ -82,11 +93,14 @@ void free_memory(cairocharts_payload * my_payload, sll* my_sll){
 
 void store_float_into_sll(sll *, my_string *);
 
-void get_data_from_std(sll * my_sll){
+int get_data_from_std(sll * my_sll){
     my_string * temp_string;
     char c;
     
     temp_string = my_string_init();
+    
+    if(!temp_string)
+        return 0;
     
     for(;(c = getchar());){
         if(c == ' '){
@@ -97,9 +111,11 @@ void get_data_from_std(sll * my_sll){
             break;
         }
         else{
-            my_string_add(temp_string, c);
+            if(!my_string_add(temp_string, c))
+                return 0;
         }
     }
+    return 1;
 }
 
 void store_float_into_sll(sll * my_sll, my_string * temp_string){

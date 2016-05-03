@@ -8,8 +8,6 @@
 
 #include "parse_helper.h"
 
-#define true 1
-#define false 0
 #define PARAMS_LEN 8
 #define data_delim "="
 #define get_data(src)(strtok(src,data_delim))
