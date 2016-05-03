@@ -35,7 +35,6 @@ cairocharts_payload * get_cairochats_payload(int argc, const char * argv[]){
     /* Add comand line parameters */
     add_command_line_params(my_payload,argc,argv);
     
-    print_payload(my_payload);
     return my_payload;
 }
 

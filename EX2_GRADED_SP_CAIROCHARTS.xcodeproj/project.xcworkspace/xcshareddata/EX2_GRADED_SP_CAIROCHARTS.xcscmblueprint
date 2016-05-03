@@ -1,0 +1,37 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "07DD5091D64FC5D03AE59A27D1A08057785D1924",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "B046C76CE2F548920665577E4AB928AEC1FF9D7D" : 0,
+    "07DD5091D64FC5D03AE59A27D1A08057785D1924" : 0,
+    "582636E516B9F2A2E09A6116AE8BDCD4C5CEBBA8" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "42C227BD-96EF-4210-B8E4-1CEB60EE277F",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "B046C76CE2F548920665577E4AB928AEC1FF9D7D" : "GenericSentinelLinkedList\/GenericSentinelLinkedList\/",
+    "07DD5091D64FC5D03AE59A27D1A08057785D1924" : "EX2_GRADED_SP_CAIROCHARTS\/",
+    "582636E516B9F2A2E09A6116AE8BDCD4C5CEBBA8" : "String_Implementation\/String_Implementation\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "EX2_GRADED_SP_CAIROCHARTS",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "EX2_GRADED_SP_CAIROCHARTS.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/FrancescoSaverioZuppichini\/System-Programming-EX2-Cairocharts.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "07DD5091D64FC5D03AE59A27D1A08057785D1924"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/FrancescoSaverioZuppichini\/String-Implementation-C.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "582636E516B9F2A2E09A6116AE8BDCD4C5CEBBA8"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/FrancescoSaverioZuppichini\/Generic-Sentine-lLinked-List-C.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B046C76CE2F548920665577E4AB928AEC1FF9D7D"
+    }
+  ]
+}

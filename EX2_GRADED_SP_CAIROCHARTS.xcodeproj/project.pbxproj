@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0D7D8E2D1CD62FA0009E7DD4 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 0D7D8E2C1CD62FA0009E7DD4 /* main.c */; };
 		0D7D8E351CD62FAC009E7DD4 /* parse_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = 0D7D8E331CD62FAC009E7DD4 /* parse_helper.c */; };
+		0DB0E9081CD89455001B66F8 /* sentinel_linked_list_int.c in Sources */ = {isa = PBXBuildFile; fileRef = 0DB0E9061CD89455001B66F8 /* sentinel_linked_list_int.c */; };
+		0DB0E90B1CD8946D001B66F8 /* my_string.c in Sources */ = {isa = PBXBuildFile; fileRef = 0DB0E9091CD8946D001B66F8 /* my_string.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +30,10 @@
 		0D7D8E2C1CD62FA0009E7DD4 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		0D7D8E331CD62FAC009E7DD4 /* parse_helper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = parse_helper.c; sourceTree = "<group>"; };
 		0D7D8E341CD62FAC009E7DD4 /* parse_helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parse_helper.h; sourceTree = "<group>"; };
+		0DB0E9061CD89455001B66F8 /* sentinel_linked_list_int.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sentinel_linked_list_int.c; path = ../../GenericSentinelLinkedList/GenericSentinelLinkedList/sentinel_linked_list_int.c; sourceTree = "<group>"; };
+		0DB0E9071CD89455001B66F8 /* sentinel_linked_list_int.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sentinel_linked_list_int.h; path = ../../GenericSentinelLinkedList/GenericSentinelLinkedList/sentinel_linked_list_int.h; sourceTree = "<group>"; };
+		0DB0E9091CD8946D001B66F8 /* my_string.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = my_string.c; path = ../../String_Implementation/String_Implementation/my_string.c; sourceTree = "<group>"; };
+		0DB0E90A1CD8946D001B66F8 /* my_string.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = my_string.h; path = ../../String_Implementation/String_Implementation/my_string.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +66,10 @@
 		0D7D8E2B1CD62FA0009E7DD4 /* EX2_GRADED_SP_CAIROCHARTS */ = {
 			isa = PBXGroup;
 			children = (
+				0DB0E9091CD8946D001B66F8 /* my_string.c */,
+				0DB0E90A1CD8946D001B66F8 /* my_string.h */,
+				0DB0E9061CD89455001B66F8 /* sentinel_linked_list_int.c */,
+				0DB0E9071CD89455001B66F8 /* sentinel_linked_list_int.h */,
 				0D7D8E2C1CD62FA0009E7DD4 /* main.c */,
 				0D7D8E331CD62FAC009E7DD4 /* parse_helper.c */,
 				0D7D8E341CD62FAC009E7DD4 /* parse_helper.h */,
@@ -123,6 +133,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0DB0E90B1CD8946D001B66F8 /* my_string.c in Sources */,
+				0DB0E9081CD89455001B66F8 /* sentinel_linked_list_int.c in Sources */,
 				0D7D8E2D1CD62FA0009E7DD4 /* main.c in Sources */,
 				0D7D8E351CD62FAC009E7DD4 /* parse_helper.c in Sources */,
 			);
