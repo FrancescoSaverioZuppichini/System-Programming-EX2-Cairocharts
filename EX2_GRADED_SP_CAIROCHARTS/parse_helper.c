@@ -19,7 +19,7 @@ int is_argv_correct(int);
 void add_default_params(cairocharts_payload *);
 void add_command_line_params(cairocharts_payload *, int, char*[]);
 
-cairocharts_payload * get_cairochats_payload(int argc, const char * argv[]){
+cairocharts_payload * get_cairocharts_payload(int argc, const char * argv[]){
     cairocharts_payload * my_payload;
     
     if(!argv)
@@ -39,7 +39,10 @@ cairocharts_payload * get_cairochats_payload(int argc, const char * argv[]){
 }
 
 
-
+void cairocharts_destroy(cairocharts_payload *  this){
+    free(this->output);
+    free(this);
+}
 
 
 void parse_param(char *, char*[]);

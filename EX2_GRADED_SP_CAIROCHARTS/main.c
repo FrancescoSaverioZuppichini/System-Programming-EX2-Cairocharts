@@ -13,15 +13,99 @@
 #include "my_string.h"
 #include "sentinel_linked_list_int.h"
 
+void free_memory(cairocharts_payload *, sll *);
+/* This function takes the data from the stdio and it stores into the custom sentinel linked list */
+void get_data_from_std(sll *);
+void print_data(cairocharts_payload *, sll * );
+
+void my_print(void *node){
+    printf("%0.2f ",*sll_get_data(node,float));
+}
+
+void create_cairocharts(cairocharts_payload * my_payload, sll *float_std_sll){
+    
+    cairo_surface_t *surface;
+    cairo_t *cr;
+    surface = cairo_pdf_surface_create(my_payload->output, my_payload->width, my_payload->height);
+    cr = cairo_create (surface);
+    
+    cairo_set_line_width (cr, 0.1);
+    cairo_set_source_rgb (cr, 0, 0, 0);
+    cairo_rectangle (cr, 0.25, 0.25, 0.5, 0.5);
+    cairo_stroke (cr);
+    
+    cairo_show_page(cr);
+    cairo_destroy(cr);
+    cairo_surface_flush(surface);
+    cairo_surface_destroy(surface);
+    
+
+}
 
 int main(int argc, const char * argv[]) {
+    /* This stuct will holds all the cmmd params */
     cairocharts_payload * my_payload;
-    sll *my_sll;
+    /* This sentinel linking list will holds the float points */
+    sll *float_std_sll;
     
-    my_sll = sll_init(sizeof(float));
+    float_std_sll = sll_init(sizeof(float));
     
-    my_payload = get_cairochats_payload(argc,argv);
-    print_payload(my_payload);
+    /* get data */
+    my_payload = get_cairocharts_payload(argc,argv);
+    get_data_from_std(float_std_sll);
+    /* print data */
+    print_data(my_payload,float_std_sll);
+    
+    create_cairocharts(my_payload,float_std_sll);
+    
+    free_memory(my_payload,float_std_sll);
     
     return 0;
+}
+
+void print_data(cairocharts_payload * my_payload, sll * my_sll){
+    putchar('\n');
+    print_payload(my_payload);
+    putchar('\n');
+    printf("%s","Points: [");
+    sll_print(my_sll,&my_print);
+    putchar(']');
+    putchar('\n');
+
+
+}
+
+void free_memory(cairocharts_payload * my_payload, sll* my_sll){
+    cairocharts_destroy(my_payload);
+    sll_destroy(my_sll);
+}
+
+void store_float_into_sll(sll *, my_string *);
+
+void get_data_from_std(sll * my_sll){
+    my_string * temp_string;
+    char c;
+    
+    temp_string = my_string_init();
+    
+    for(;(c = getchar());){
+        if(c == ' '){
+            store_float_into_sll(my_sll,temp_string);
+        }
+        else if(c == '\n' || c == EOF){
+            store_float_into_sll(my_sll,temp_string);
+            break;
+        }
+        else{
+            my_string_add(temp_string, c);
+        }
+    }
+}
+
+void store_float_into_sll(sll * my_sll, my_string * temp_string){
+    float temp_float;
+    temp_float = atof(temp_string->string);
+    sll_append(my_sll, &temp_float);
+    /* reset the string */
+    my_string_erase(temp_string);
 }

@@ -36,7 +36,7 @@ typedef struct cairocharts_payload{
 /* This function converts the command line parameters and return a struct
  with all the data in order to produce a chart if a errors occurs 
  a NULL pointer is returned.n */
-cairocharts_payload * get_cairochats_payload(int, const char *[]);
+cairocharts_payload * get_cairocharts_payload(int, const char *[]);
 void print_payload(cairocharts_payload *);
-
+void cairocharts_destroy(cairocharts_payload *);
 #endif /* parse_helper_h */

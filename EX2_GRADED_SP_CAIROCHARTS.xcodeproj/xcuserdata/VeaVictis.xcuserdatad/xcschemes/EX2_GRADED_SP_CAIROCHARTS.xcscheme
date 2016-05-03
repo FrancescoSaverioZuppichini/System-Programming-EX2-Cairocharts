@@ -63,7 +63,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "linewidth=50 width=100 output=test color=0,1,0"
+            argument = "linewidth=50 width=100 output=calzino.pdf color=0,1,0"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
