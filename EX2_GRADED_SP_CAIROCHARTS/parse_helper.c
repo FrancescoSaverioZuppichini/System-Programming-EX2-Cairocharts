@@ -106,7 +106,8 @@ void store_and_parse_color(float dst[], char *src){
 
 void add_default_params(cairocharts_payload * my_payload){
     
-    my_payload->output =strdup("chart.pdf");
+    char * default_output = "chart.pdf";
+    my_payload->output = strdup(default_output);
     
     my_payload->width = 4.0;
     

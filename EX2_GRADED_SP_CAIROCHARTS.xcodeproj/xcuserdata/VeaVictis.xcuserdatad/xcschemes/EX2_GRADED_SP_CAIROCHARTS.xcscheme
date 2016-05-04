@@ -63,7 +63,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "linewidth=50 width=100 output=alexander.pdf color=0,1,0"
+            argument = "output=test.pdf width=150 height=100 xmargin=10 ymargin=5"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
