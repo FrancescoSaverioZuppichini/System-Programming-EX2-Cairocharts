@@ -67,7 +67,7 @@ void free_memory(cairocharts_payload * my_payload, sll* my_sll){
     sll_destroy(my_sll);
 }
 
-void store_float_into_sll(sll *, my_string *);
+int store_float_into_sll(sll *, my_string *);
 
 int get_data_from_std(sll * my_sll){
     my_string * std_string;
@@ -85,11 +85,12 @@ int get_data_from_std(sll * my_sll){
         else if(!my_string_add(std_string, c))
                 return 0;
     }
-    store_float_into_sll(my_sll,std_string);
+    if(!store_float_into_sll(my_sll,std_string))
+        return 0;
     return 1;
 }
 
-void store_float_into_sll(sll * my_sll, my_string * std_string){
+int store_float_into_sll(sll * my_sll, my_string * std_string){
     char *token;
     char *x_y_token;
     char * reserve;
@@ -97,19 +98,27 @@ void store_float_into_sll(sll * my_sll, my_string * std_string){
     token = strtok(std_string->string, " ");
     while(token){
         cairo_point * curr_point = malloc(sizeof(cairo_point));
-//        TODO add a check on the token
         if(strchr(token,',') != NULL){
             x_y_token = strdup(token);
-            curr_point->x = atof(strtok_r(x_y_token,",",&reserve));
-            curr_point->y = atof(strtok_r(reserve,",",&reserve));
+            /* goto Error if the input is not a correct float */
+            if(sscanf(strtok_r(x_y_token,",",&reserve),"%f",&curr_point->x) == 0)
+               goto parsingError;
+            if(sscanf(strtok_r(reserve,",",&reserve),"%f",&curr_point->y) == 0)
+                goto parsingError;
         }
         else{
-        curr_point->y = atof(token);
+            if(sscanf(token, "%f", &curr_point->y) == 0)
+                goto parsingError;
         /* default */
         curr_point->x = my_sll->size;
         }
         sll_append(my_sll, curr_point);
         token = strtok(NULL, " ");
-
+        return 1;
+        parsingError:
+               puts("Error during parsing");
+               return 0;
+               
     }
+    return 1;
 }
