@@ -114,11 +114,10 @@ int store_float_into_sll(sll * my_sll, my_string * std_string){
         }
         sll_append(my_sll, curr_point);
         token = strtok(NULL, " ");
-        return 1;
-        parsingError:
-               puts("Error during parsing");
-               return 0;
-               
     }
     return 1;
+    parsingError:
+        puts("Error during parsing");
+        return 0;
+
 }
