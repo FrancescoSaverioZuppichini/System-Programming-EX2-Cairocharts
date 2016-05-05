@@ -50,6 +50,7 @@ void store_and_parse_color(float *, char *);
 void add_command_line_params(cairocharts_payload * my_payload, int argc, char *argv[]){
     /* This will hold the current parameter parsed (e.g ["width","10.0"])*/
     char *curr_param[2];
+    
     int i;
     
     for(i = 1; i < argc; i++){
@@ -122,8 +123,8 @@ void add_default_params(cairocharts_payload * my_payload){
     my_payload->linewidth = 1.0;
     
     my_payload->color[0] = 0.0;
-    my_payload->color[1] = -1.0;
-    my_payload->color[2] = 0.0;
+    my_payload->color[1] = 0.0;
+    my_payload->color[2] = 1.0;
     
 }
 
@@ -146,13 +147,9 @@ void print_payload(cairocharts_payload * my_payload){
 /* This function parse a argv element and store into the second paramam, eg:
  input "output=babbage" -> parsed into ["output","babbage"] */
 void parse_param(char * curr_argv, char * dst[2]){
-    char *temp;
     
-    temp = get_data(curr_argv);
-    dst[0] = strdup(temp);
-    
-    temp = get_data(NULL);
-    dst[1] = strdup(temp);
+    dst[0] = strdup(strtok(curr_argv,"="));
+    dst[1] = strdup(strtok(NULL,"="));
     
 }
 
