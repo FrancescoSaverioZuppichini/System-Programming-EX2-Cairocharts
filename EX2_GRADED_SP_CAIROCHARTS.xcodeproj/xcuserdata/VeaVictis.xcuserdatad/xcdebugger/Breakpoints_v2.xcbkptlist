@@ -10,12 +10,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EX2_GRADED_SP_CAIROCHARTS/draw_helper.c"
-            timestampString = "484072562.106164"
+            timestampString = "484076985.506079"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "26"
-            endingLineNumber = "26"
-            landmarkName = "get_max()"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
+            landmarkName = "draw_point()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "EX2_GRADED_SP_CAIROCHARTS/draw_helper.c"
+            timestampString = "484076985.506079"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
+            landmarkName = "draw_point()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

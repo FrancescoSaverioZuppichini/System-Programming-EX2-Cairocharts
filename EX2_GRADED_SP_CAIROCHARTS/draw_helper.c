@@ -12,7 +12,7 @@ void set_parameters(cairocharts_payload *, cairo_t *);
 void destroy_cairocharts(cairo_surface_t *, cairo_t *);
 void draw_axis(cairocharts_payload * my_payload, cairo_point * origin, cairo_t *cr);
 cairo_point * get_origin(cairocharts_payload * );
-void draw_point(cairocharts_payload *, sll *, cairo_t * ,float ,float );
+void draw_point(cairocharts_payload *, sll *, cairo_t * ,float ,float,cairo_point *);
 
 void get_max(sll *my_sll, float * scale_x, float * scale_y){
     sll_node *pos;
@@ -53,8 +53,10 @@ int create_cairocharts(cairocharts_payload * my_payload, sll *float_std_sll){
     get_max(float_std_sll,&scale_x,&scale_y);
     printf("Max x: %0.2f, Max y: %0.2f \n",scale_x,scale_y);
     /* We need a scale factor in order to plot */
-    scale_x = my_payload->width/scale_x;
-    scale_y = my_payload->height/scale_y;
+    printf("Real width %0.2f, height %0.2f\n",my_payload->width - 2*(my_payload->ymargin),my_payload->height - 2*(my_payload->xmargin));
+    scale_x = (my_payload->width - 2*(my_payload->ymargin))/scale_x;
+    scale_y = (my_payload->height - 2*(my_payload->xmargin))/scale_y;
+    
     printf("Scaled by a factor of (%0.2f,%0.2f)\n",scale_x,scale_y);
     
     cairo_set_font_size (cr,my_payload->fontsize);
@@ -64,14 +66,43 @@ int create_cairocharts(cairocharts_payload * my_payload, sll *float_std_sll){
     cairo_set_source_rgb (cr, 0, 0, 0);
     
     draw_axis(my_payload,origin,cr);
-    
+    draw_point(my_payload,float_std_sll,cr,scale_x,scale_y,origin);
     cairo_show_page(cr);
     destroy_cairocharts(surface, cr);
     return 1;
 }
 
-void draw_point(cairocharts_payload * my_payload, sll *my_sll, cairo_t *cr,float scale_x, float scale_y ){
+void normalize_point(cairo_point * curr_cairo_point, cairocharts_payload * my_payload, float scale_x, float scale_y){
     
+    curr_cairo_point->x = (curr_cairo_point->x * scale_x)+ my_payload->ymargin;
+    curr_cairo_point->y = (curr_cairo_point->y * scale_y) + my_payload->xmargin;
+}
+
+void draw_point(cairocharts_payload * my_payload, sll *my_sll, cairo_t *cr,float scale_x, float scale_y, cairo_point *origin){
+    cairo_point * curr_cairo_point;
+    sll_node *pos;
+    pos = my_sll->head->next;
+    
+    curr_cairo_point = sll_get_data(pos, cairo_point);
+    
+    normalize_point(curr_cairo_point,my_payload,scale_x,scale_y);
+    
+    cairo_new_path(cr);
+    
+    cairo_move_to (cr, curr_cairo_point->x, my_payload->height - curr_cairo_point->y);
+    for(pos = pos->next; pos != my_sll->head; pos = pos->next){
+        
+        curr_cairo_point = sll_get_data(pos, cairo_point);
+        normalize_point(curr_cairo_point,my_payload,scale_x,scale_y);
+
+        cairo_line_to (cr, curr_cairo_point->x, my_payload->height  - curr_cairo_point->y);
+
+    }
+    
+    cairo_set_line_join(cr, CAIRO_LINE_JOIN_ROUND);
+    cairo_stroke (cr);
+
+
 }
 
 void draw_axis(cairocharts_payload * my_payload, cairo_point * origin, cairo_t *cr){
