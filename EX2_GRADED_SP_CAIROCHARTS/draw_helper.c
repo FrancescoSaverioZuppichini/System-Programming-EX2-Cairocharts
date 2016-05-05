@@ -113,7 +113,7 @@ void draw_point(cairocharts_payload * my_payload, sll *my_sll, cairo_t *cr,float
     
     cairo_set_line_join(cr, CAIRO_LINE_JOIN_ROUND);
     cairo_stroke (cr);
-    
+
 
 }
 
@@ -149,7 +149,7 @@ void draw_lines(cairocharts_payload * my_payload ,cairo_point * origin, cairo_t 
     
     step_on_x = max_x/10.0;
     step_on_y = max_y/10.0;
-    len_line = 0.3 * my_payload->linewidth;
+    len_line = witdh/height * 2.0;
     curr_pos->x = origin->x;
     curr_pos->y = origin->y;
 
@@ -160,15 +160,11 @@ void draw_lines(cairocharts_payload * my_payload ,cairo_point * origin, cairo_t 
     cairo_line_to (cr, curr_pos->x, curr_pos->y + len_line);
     sprintf(to_show, "%.2f", 0.0 );
     cairo_show_text (cr, to_show);
-    
     /* draw lines on X axis */
     for (i = 0; i<10; i++) {
         curr_pos->x += distance_on_x;
-        /* move and draw */
         cairo_move_to (cr, curr_pos->x,origin->y);
         cairo_line_to (cr, curr_pos->x , origin->y + len_line);
-        /* write the text */
-//        cairo_move_to (cr, curr_pos->x,origin->y + my_payload->fontsize);
         sprintf(to_show, "%.2f", step_on_x );
         cairo_show_text (cr, to_show);
         step_on_x += max_x/10.0;
