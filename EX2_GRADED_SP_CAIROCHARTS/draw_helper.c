@@ -58,8 +58,8 @@ int create_cairocharts(cairocharts_payload * my_payload, sll *float_std_sll){
     printf("Max x: %0.2f, Max y: %0.2f \n",max_x,max_y);
     /* We need a scale factor in order to plot */
     printf("Real width %0.2f, height %0.2f\n",real_width,real_height);
-    scale_x = (real_width)/max_x;
-    scale_y = (real_height)/max_y;
+    scale_x = (real_width - (real_width/10.0))/max_x;
+    scale_y = (real_height - (real_height/10.0))/max_y;
     
     printf("Scaled by a factor of (%0.2f,%0.2f)\n",scale_x,scale_y);
     
@@ -107,7 +107,7 @@ void draw_point(cairocharts_payload * my_payload, sll *my_sll, cairo_t *cr,float
         curr_cairo_point = sll_get_data(pos, cairo_point);
         normalize_point(curr_cairo_point,my_payload,scale_x,scale_y);
 
-        cairo_line_to (cr, curr_cairo_point->x, my_payload->height  - curr_cairo_point->y);
+        cairo_line_to (cr, curr_cairo_point->x , my_payload->height  - curr_cairo_point->y);
 
     }
     
@@ -135,8 +135,10 @@ void draw_axis(cairocharts_payload * my_payload, cairo_point * origin, cairo_t *
     
 }
 
+void set_to_origin(cairo_point *, cairo_point *);
+
 void draw_lines(cairocharts_payload * my_payload ,cairo_point * origin, cairo_t * cr, float max_x, float max_y, float witdh, float height){
-    float distance_on_x,distance_on_y, step_on_x, step_on_y,len_line;
+    float distance_on_x,distance_on_y, step_on_x, step_on_y,len_line, show_pos;
     int i;
     char to_show[20];
     
@@ -144,35 +146,39 @@ void draw_lines(cairocharts_payload * my_payload ,cairo_point * origin, cairo_t 
     
     curr_pos = malloc(sizeof(cairo_point));
     
-    distance_on_x = witdh/10.0;
-    distance_on_y = height/10.0;
+    distance_on_x = (witdh - witdh/10.0)/10.0;
+    distance_on_y = (height - height/10.0)/10.0;
     
-    step_on_x = max_x/10.0;
+    step_on_x = 0.0;
     step_on_y = max_y/10.0;
     len_line = witdh/height * 2.0;
-    curr_pos->x = origin->x;
-    curr_pos->y = origin->y;
+    
+    set_to_origin(origin,curr_pos);
 
     curr_pos->x -= (my_payload->linewidth /2.0)/2.0;
     cairo_set_line_width (cr, my_payload->linewidth/2.0);
     printf("step,distance X (%0.2f,%0.2f) -- Y (%0.2f,%0.2f)\n",step_on_x,distance_on_x,step_on_y,distance_on_y);
-    cairo_move_to (cr, curr_pos->x,curr_pos->y);
-    cairo_line_to (cr, curr_pos->x, curr_pos->y + len_line);
-    sprintf(to_show, "%.2f", 0.0 );
-    cairo_show_text (cr, to_show);
+
     /* draw lines on X axis */
-    for (i = 0; i<10; i++) {
-        curr_pos->x += distance_on_x;
+    for (i = 0; i<11; i++) {
         cairo_move_to (cr, curr_pos->x,origin->y);
         cairo_line_to (cr, curr_pos->x , origin->y + len_line);
+        
         sprintf(to_show, "%.2f", step_on_x );
+        
+        show_pos = origin->y + len_line + my_payload->fontsize + 1;
+        show_pos = show_pos < 0 ? my_payload->height: show_pos;
+
+        cairo_move_to (cr, curr_pos->x - ((my_payload->fontsize)/2.0),show_pos);
         cairo_show_text (cr, to_show);
         step_on_x += max_x/10.0;
+        curr_pos->x += distance_on_x;
 
 
     }
-    curr_pos->x = origin->x;
-    curr_pos->y = origin->y;
+    
+    set_to_origin(origin,curr_pos);
+
     curr_pos->y += (my_payload->linewidth /2.0)/2.0;
     
     /* draw lines on Y axis */
@@ -180,8 +186,13 @@ void draw_lines(cairocharts_payload * my_payload ,cairo_point * origin, cairo_t 
         /* remember that 0.0 is at the top */
         curr_pos->y -= distance_on_y;
         cairo_move_to (cr, origin->x,curr_pos->y);
-        cairo_line_to (cr, origin->x - len_line , curr_pos->y);
+        cairo_line_to (cr, origin->x - len_line , curr_pos->y );
+        
         sprintf(to_show, "%.2f", step_on_y );
+        show_pos = origin->x - (len_line + ((strlen(to_show) *my_payload->fontsize)/2.0) + 1);
+        show_pos = show_pos < 0 ? 0: show_pos;
+        
+        cairo_move_to (cr, show_pos, curr_pos->y  + my_payload->fontsize/2.0);
         cairo_show_text (cr, to_show);
         step_on_y += max_y/10.0;
         
@@ -191,6 +202,11 @@ void draw_lines(cairocharts_payload * my_payload ,cairo_point * origin, cairo_t 
 
 }
 
+void set_to_origin(cairo_point * origin, cairo_point * p){
+    p->x = origin->x;
+    p->y = origin->y;
+
+}
 
 cairo_point * get_origin(cairocharts_payload * my_payload){
     cairo_point * origin = malloc(sizeof(cairo_point));

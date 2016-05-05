@@ -110,13 +110,13 @@ void add_default_params(cairocharts_payload * my_payload){
     char * default_output = "chart.pdf";
     my_payload->output = strdup(default_output);
     
-    my_payload->width = 4.0;
+    my_payload->width = 4.0 * 72;
     
-    my_payload->height = 3.0;
+    my_payload->height = 3.0 * 72;
     
-    my_payload->xmargin = 1.0/3.0;
+    my_payload->xmargin = (1.0/3.0) * 72;
     
-    my_payload->ymargin = 1.0/2.0;
+    my_payload->ymargin = (1.0/2.0) * 72;
     
     my_payload->fontsize = 8.0;
     
