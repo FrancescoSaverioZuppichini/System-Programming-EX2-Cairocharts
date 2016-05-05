@@ -13,7 +13,7 @@ void destroy_cairocharts(cairo_surface_t *, cairo_t *);
 void draw_axis(cairocharts_payload * my_payload, cairo_point * origin, cairo_t *cr);
 cairo_point * get_origin(cairocharts_payload * );
 void draw_point(cairocharts_payload *, sll *, cairo_t * ,float ,float,cairo_point *);
-void draw_lines(cairocharts_payload *,cairo_point *, cairo_t *, float,float,float,float, sll *);
+void draw_lines(cairocharts_payload *,cairo_point *, cairo_t *, float,float,float,float);
 
 void get_max(sll *my_sll, float * scale_x, float * scale_y){
     sll_node *pos;
@@ -71,7 +71,7 @@ int create_cairocharts(cairocharts_payload * my_payload, sll *float_std_sll){
     
     draw_axis(my_payload,origin,cr);
     
-    draw_lines(my_payload,origin,cr,max_x,max_y,real_width,real_height,float_std_sll);
+    draw_lines(my_payload,origin,cr,max_x,max_y,real_width,real_height);
     
     cairo_show_page(cr);
     destroy_cairocharts(surface, cr);
@@ -137,41 +137,46 @@ void draw_axis(cairocharts_payload * my_payload, cairo_point * origin, cairo_t *
 
 void set_to_origin(cairo_point *, cairo_point *);
 
-void draw_lines(cairocharts_payload * my_payload ,cairo_point * origin, cairo_t * cr, float max_x, float max_y, float witdh, float height, sll * my_sll){
-    float show_pos,len_line, distance_on_y,step_on_y;
-    int i,k;
-    sll_node *pos;
+void draw_lines(cairocharts_payload * my_payload ,cairo_point * origin, cairo_t * cr, float max_x, float max_y, float witdh, float height){
+    float distance_on_x,distance_on_y, step_on_x, step_on_y,len_line, show_pos;
+    int i;
     char to_show[20];
     
     cairo_point * curr_pos;
     
     curr_pos = malloc(sizeof(cairo_point));
+    
+    distance_on_x = (witdh - witdh/10.0)/10.0;
+    distance_on_y = (height - height/10.0)/10.0;
+    
+    step_on_x = 0.0;
+    step_on_y = max_y/10.0;
     len_line = witdh/height * 2.0;
+    
+    set_to_origin(origin,curr_pos);
 
-    k =  ((int) my_sll->size) < 10 ? 1 : ((int) my_sll->size) / 10 ;
+    curr_pos->x -= (my_payload->linewidth /2.0)/2.0;
     cairo_set_line_width (cr, my_payload->linewidth/2.0);
+    printf("step,distance X (%0.2f,%0.2f) -- Y (%0.2f,%0.2f)\n",step_on_x,distance_on_x,step_on_y,distance_on_y);
 
-    for(pos = my_sll->head->next,i = 0; pos != my_sll->head; pos = pos->next,i++){
-        if(i%k == 0){
-            curr_pos->x = sll_get_data(pos, cairo_point)->x;
-            curr_pos->x -= (my_payload->linewidth /2.0)/2.0;
-
-            cairo_move_to (cr, curr_pos->x,origin->y);
-            cairo_line_to (cr, curr_pos->x , origin->y + len_line);
-
-            sprintf(to_show, "%i", i );
-            
-            show_pos = origin->y + len_line + my_payload->fontsize + 1;
-            show_pos = show_pos < 0 ? my_payload->height: show_pos;
-            
-            cairo_move_to (cr, curr_pos->x - (((strlen(to_show)*(my_payload->fontsize))/2.0) - (my_payload->linewidth /2.0)/2.0),show_pos);
-            cairo_show_text (cr, to_show);
-
-        }
-      
+    /* draw lines on X axis */
+    for (i = 0; i<11; i++) {
+        cairo_move_to (cr, curr_pos->x,origin->y);
+        cairo_line_to (cr, curr_pos->x , origin->y + len_line);
         
-    }
+        sprintf(to_show, "%.2f", step_on_x );
+        
+        show_pos = origin->y + len_line + my_payload->fontsize + 1;
+        show_pos = show_pos < 0 ? my_payload->height: show_pos;
 
+        cairo_move_to (cr, curr_pos->x - ((my_payload->fontsize)/2.0),show_pos);
+        cairo_show_text (cr, to_show);
+        step_on_x += max_x/10.0;
+        curr_pos->x += distance_on_x;
+
+
+    }
+    
     set_to_origin(origin,curr_pos);
 
     curr_pos->y += (my_payload->linewidth /2.0)/2.0;
