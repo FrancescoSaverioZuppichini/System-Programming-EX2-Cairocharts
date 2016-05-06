@@ -12,6 +12,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+typedef enum {
+    LINE_PLOT,
+    HISTOGRAM
+}cairochart_Type;
 
 typedef struct cairocharts_payload{
     /* filename output name (defaut: "chart.pdf") */
@@ -32,7 +36,7 @@ typedef struct cairocharts_payload{
     /* RGB colors (default: 0.0,0.0,1.0) // blue */
     float color[3];
     /* Type of the graph, (default: line plot) */
-    char *type;
+    cairochart_Type type;
 }cairocharts_payload;
 
 /* This function converts the command line parameters and return a struct

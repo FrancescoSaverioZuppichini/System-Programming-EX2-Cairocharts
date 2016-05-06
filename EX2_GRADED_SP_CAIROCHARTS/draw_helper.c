@@ -12,7 +12,9 @@ void set_parameters(cairocharts_payload *, cairo_t *);
 void destroy_cairocharts(cairo_surface_t *, cairo_t *);
 void draw_axis(cairocharts_payload * my_payload, cairo_point * origin, cairo_t *cr);
 cairo_point * get_origin(cairocharts_payload * );
-void draw_point(cairocharts_payload *, sll *, cairo_t * ,float ,float,cairo_point *);
+void draw_line_plot(cairocharts_payload *, sll *, cairo_t * ,float ,float,cairo_point *);
+void draw_histogram(cairocharts_payload *, sll *, cairo_t * ,float ,float,cairo_point *);
+
 void draw_lines(cairocharts_payload *,cairo_point *, cairo_t *, float,float,float,float);
 
 void get_max(sll *my_sll, float * scale_x, float * scale_y){
@@ -67,9 +69,11 @@ int create_cairocharts(cairocharts_payload * my_payload, sll *float_std_sll){
     cairo_set_font_size (cr,my_payload->fontsize);
     
     cairo_point * origin = get_origin(my_payload);
-    
-    draw_point(my_payload,float_std_sll,cr,scale_x,scale_y,origin);
-    
+    if(my_payload->type == HISTOGRAM)
+        draw_histogram(my_payload,float_std_sll,cr,scale_x,scale_y,origin);
+    else
+        draw_line_plot(my_payload,float_std_sll,cr,scale_x,scale_y,origin);
+
     draw_axis(my_payload,origin,cr);
     
     draw_lines(my_payload,origin,cr,max_x,max_y,real_width,real_height);
@@ -85,8 +89,10 @@ void normalize_point(cairo_point * curr_cairo_point, cairocharts_payload * my_pa
     curr_cairo_point->x = (curr_cairo_point->x * scale_x)+ my_payload->ymargin;
     curr_cairo_point->y = (curr_cairo_point->y * scale_y) + my_payload->xmargin;
 }
+void draw_histogram(cairocharts_payload * my_payload, sll *my_sll, cairo_t *cr,float scale_x, float scale_y, cairo_point *origin){
+}
 
-void draw_point(cairocharts_payload * my_payload, sll *my_sll, cairo_t *cr,float scale_x, float scale_y, cairo_point *origin){
+void draw_line_plot(cairocharts_payload * my_payload, sll *my_sll, cairo_t *cr,float scale_x, float scale_y, cairo_point *origin){
     cairo_point * curr_cairo_point;
     sll_node *pos;
     

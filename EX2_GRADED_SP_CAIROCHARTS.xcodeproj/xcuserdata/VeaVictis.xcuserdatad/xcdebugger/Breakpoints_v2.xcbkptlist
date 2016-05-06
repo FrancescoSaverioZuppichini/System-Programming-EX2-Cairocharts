@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EX2_GRADED_SP_CAIROCHARTS/draw_helper.c"
-            timestampString = "484217233.707671"
+            timestampString = "484218931.921698"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "173"
-            endingLineNumber = "173"
+            startingLineNumber = "179"
+            endingLineNumber = "179"
             landmarkName = "draw_lines()"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,28 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EX2_GRADED_SP_CAIROCHARTS/parse_helper.c"
-            timestampString = "484217491.111732"
+            timestampString = "484218399.543341"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
-            landmarkName = "store_and_parse_color()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "EX2_GRADED_SP_CAIROCHARTS/parse_helper.c"
-            timestampString = "484217492.260564"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
-            landmarkName = "store_and_parse_color()"
+            startingLineNumber = "164"
+            endingLineNumber = "164"
+            landmarkName = "print_payload()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

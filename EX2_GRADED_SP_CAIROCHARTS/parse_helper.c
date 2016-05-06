@@ -12,8 +12,7 @@
 #define data_delim "="
 #define get_data(src)(strtok(src,data_delim))
 #define InvalidComandLineArgument "Error during parsing command line arguments, exit program"
-/* This function check if all the command line parameters exist. */
-int is_argv_correct(int);
+
 void add_default_params(cairocharts_payload *);
 int add_command_line_params(cairocharts_payload *, int, char*[]);
 
@@ -89,6 +88,13 @@ int add_command_line_params(cairocharts_payload * my_payload, int argc, char *ar
                 goto parsingError;
 
         }
+        
+        if(strcmp(curr_param[0], "type") == 0){
+            if(strcmp(curr_param[1],"histogram"))
+               my_payload->type = HISTOGRAM;
+
+        }
+
         if(strcmp(curr_param[0], "color") == 0){
             if(!store_and_parse_color(my_payload->color,curr_param[1]))
                 goto parsingError;
@@ -112,10 +118,9 @@ int store_and_parse_color(float dst[], char *src){
     i = 0;
     token = strtok(src, ",");
     while(token) {
-        //        TODO add check here!
+        
         if(sscanf(token,"%f",&to_store) == 0)
             return 0;
-
         else if(to_store > 1 || to_store < 0){
             puts("Color number must be between 0 and 1");
             return 0;
@@ -131,8 +136,11 @@ int store_and_parse_color(float dst[], char *src){
 void add_default_params(cairocharts_payload * my_payload){
     
     char * default_output = "chart.pdf";
+
     my_payload->output = strdup(default_output);
     
+    my_payload->type = LINE_PLOT;
+
     my_payload->width = 4.0 * 72;
     
     my_payload->height = 3.0 * 72;
@@ -144,7 +152,6 @@ void add_default_params(cairocharts_payload * my_payload){
     my_payload->fontsize = 8.0;
     
     my_payload->linewidth = 1.0;
-    
     my_payload->color[0] = 0.0;
     my_payload->color[1] = 0.0;
     my_payload->color[2] = 1.0;
@@ -156,6 +163,8 @@ void print_payload(cairocharts_payload * my_payload){
     puts("----------+-------------");
     
     printf("%10s|%10s\n","output",my_payload->output);
+    printf("%10s|%10s\n","output",my_payload->type);
+
     printf("%10s|%10.2f\n","width",my_payload->width);
     printf("%10s|%10.2f\n","height",my_payload->height);
     printf("%10s|%10.2f\n","xmargin",my_payload->xmargin);
@@ -174,9 +183,4 @@ void parse_param(char * curr_argv, char * dst[2]){
     dst[0] = strdup(strtok(curr_argv,"="));
     dst[1] = strdup(strtok(NULL,"="));
     
-}
-
-
-int is_argv_correct(int argc){
-    return argc > 9;
 }
