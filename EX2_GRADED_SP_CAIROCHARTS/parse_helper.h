@@ -29,8 +29,10 @@ typedef struct cairocharts_payload{
     /* basic line width for char axis in points; the plot line is 
      twice this line width (default: 1.0pt)*/
     float linewidth;
-    /* RGB colors (default: 0.0,-1.0,0.0) // blue */
+    /* RGB colors (default: 0.0,0.0,1.0) // blue */
     float color[3];
+    /* Type of the graph, (default: line plot) */
+    char *type;
 }cairocharts_payload;
 
 /* This function converts the command line parameters and return a struct

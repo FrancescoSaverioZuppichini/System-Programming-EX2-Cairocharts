@@ -34,6 +34,7 @@ void get_max(sll *my_sll, float * scale_x, float * scale_y){
     
     *scale_x = max_x;
     *scale_y = max_y;
+    
 }
 
 int create_cairocharts(cairocharts_payload * my_payload, sll *float_std_sll){
@@ -74,6 +75,7 @@ int create_cairocharts(cairocharts_payload * my_payload, sll *float_std_sll){
     draw_lines(my_payload,origin,cr,max_x,max_y,real_width,real_height);
     
     cairo_show_page(cr);
+    
     destroy_cairocharts(surface, cr);
     return 1;
 }
@@ -113,7 +115,6 @@ void draw_point(cairocharts_payload * my_payload, sll *my_sll, cairo_t *cr,float
     
     cairo_set_line_join(cr, CAIRO_LINE_JOIN_ROUND);
     cairo_stroke (cr);
-
 
 }
 
@@ -197,7 +198,7 @@ void draw_lines(cairocharts_payload * my_payload ,cairo_point * origin, cairo_t 
         step_on_y += max_y/10.0;
         
     }
-    
+    free(curr_pos);
     cairo_stroke (cr);
 
 }

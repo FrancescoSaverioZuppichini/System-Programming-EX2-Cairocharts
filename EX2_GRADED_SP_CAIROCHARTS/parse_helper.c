@@ -11,11 +11,11 @@
 #define PARAMS_LEN 8
 #define data_delim "="
 #define get_data(src)(strtok(src,data_delim))
-
+#define InvalidComandLineArgument "Error during parsing command line arguments, exit program"
 /* This function check if all the command line parameters exist. */
 int is_argv_correct(int);
 void add_default_params(cairocharts_payload *);
-void add_command_line_params(cairocharts_payload *, int, char*[]);
+int add_command_line_params(cairocharts_payload *, int, char*[]);
 
 cairocharts_payload * get_cairocharts_payload(int argc, const char * argv[]){
     cairocharts_payload * my_payload;
@@ -31,7 +31,8 @@ cairocharts_payload * get_cairocharts_payload(int argc, const char * argv[]){
     add_default_params(my_payload);
     
     /* Add comand line parameters */
-    add_command_line_params(my_payload,argc,argv);
+    if(!add_command_line_params(my_payload,argc,argv))
+        return NULL;
     
     return my_payload;
 }
@@ -44,10 +45,10 @@ void cairocharts_destroy(cairocharts_payload *  this){
 
 
 void parse_param(char *, char*[]);
-void store_and_parse_color(float *, char *);
+int store_and_parse_color(float *, char *);
 
 
-void add_command_line_params(cairocharts_payload * my_payload, int argc, char *argv[]){
+int add_command_line_params(cairocharts_payload * my_payload, int argc, char *argv[]){
     /* This will hold the current parameter parsed (e.g ["width","10.0"])*/
     char *curr_param[2];
     
@@ -61,47 +62,69 @@ void add_command_line_params(cairocharts_payload * my_payload, int argc, char *a
             my_payload->output = strdup(curr_param[1]);
         }
         if(strcmp(curr_param[0], "width") == 0){
-            my_payload->width = atof(curr_param[1]);
+            if(sscanf(curr_param[1],"%f",&my_payload->width) == 0)
+                goto parsingError;
         }
         if(strcmp(curr_param[0], "height") == 0){
-            my_payload->height = atof(curr_param[1]);
+            if(sscanf(curr_param[1],"%f",&my_payload->height) == 0)
+                goto parsingError;
         }
         if(strcmp(curr_param[0], "xmargin") == 0){
-            my_payload->xmargin = atof(curr_param[1]);
+            if(sscanf(curr_param[1],"%f",&my_payload->xmargin) == 0)
+                goto parsingError;
         }
         
         if(strcmp(curr_param[0], "ymargin") == 0){
-            my_payload->ymargin = atof(curr_param[1]);
+            if(sscanf(curr_param[1],"%f",&my_payload->ymargin) == 0)
+                goto parsingError;
         }
         if(strcmp(curr_param[0], "fontsize") == 0){
             my_payload->fontsize = atof(curr_param[1]);
+            if(sscanf(curr_param[1],"%f",&my_payload->fontsize) == 0)
+                goto parsingError;
         }
         
         if(strcmp(curr_param[0], "linewidth") == 0){
-            my_payload->linewidth = atof(curr_param[1]);
-            
+            if(sscanf(curr_param[1],"%f",&my_payload->linewidth) == 0)
+                goto parsingError;
+
         }
         if(strcmp(curr_param[0], "color") == 0){
-            store_and_parse_color(my_payload->color,curr_param[1]);
+            if(!store_and_parse_color(my_payload->color,curr_param[1]))
+                goto parsingError;
             
         }
     }
     
+    return 1;
+    parsingError:
+        puts(InvalidComandLineArgument);
+        return 0;
+    
+    
 }
 
-void store_and_parse_color(float dst[], char *src){
+int store_and_parse_color(float dst[], char *src){
     int i;
     char *token;
+    float to_store;
     
     i = 0;
     token = strtok(src, ",");
     while(token) {
         //        TODO add check here!
-        dst[i] =  atof(token);
-        token = strtok(NULL, " ");
+        if(sscanf(token,"%f",&to_store) == 0)
+            return 0;
+
+        else if(to_store > 1 || to_store < 0){
+            puts("Color number must be between 0 and 1");
+            return 0;
+        }
+        dst[i] =  to_store;
+        token = strtok(NULL, ",");
         i++;
     }
-    
+    return 1;
 }
 
 

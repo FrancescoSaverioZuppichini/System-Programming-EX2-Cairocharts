@@ -38,6 +38,8 @@ int main(int argc, const char * argv[]) {
     
     /* get data */
     my_payload = get_cairocharts_payload(argc,argv);
+    if(!my_payload)
+        return EXIT_FAILURE;
     if(!get_data_from_std(float_std_sll))
         return EXIT_FAILURE;
     
@@ -102,7 +104,7 @@ int store_float_into_sll(sll * my_sll, my_string * std_string){
             x_y_token = strdup(token);
             /* goto Error if the input is not a correct float */
             if(sscanf(strtok_r(x_y_token,",",&reserve),"%f",&curr_point->x) == 0)
-               goto parsingError;
+                goto parsingError;
             if(sscanf(strtok_r(reserve,",",&reserve),"%f",&curr_point->y) == 0)
                 goto parsingError;
         }
