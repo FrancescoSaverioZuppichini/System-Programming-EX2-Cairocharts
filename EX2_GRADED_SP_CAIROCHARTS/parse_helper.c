@@ -163,7 +163,6 @@ void print_payload(cairocharts_payload * my_payload){
     puts("----------+-------------");
     
     printf("%10s|%10s\n","output",my_payload->output);
-    printf("%10s|%10s\n","output",my_payload->type);
 
     printf("%10s|%10.2f\n","width",my_payload->width);
     printf("%10s|%10.2f\n","height",my_payload->height);
