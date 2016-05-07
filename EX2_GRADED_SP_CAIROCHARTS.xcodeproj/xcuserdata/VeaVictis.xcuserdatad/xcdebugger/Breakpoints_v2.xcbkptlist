@@ -26,12 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EX2_GRADED_SP_CAIROCHARTS/parse_helper.c"
-            timestampString = "484305196.033227"
+            timestampString = "484309072.864377"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "189"
-            endingLineNumber = "189"
-            landmarkName = "parse_param()"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "add_command_line_params()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

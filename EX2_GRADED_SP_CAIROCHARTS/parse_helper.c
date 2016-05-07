@@ -61,6 +61,8 @@ int add_command_line_params(cairocharts_payload * my_payload, int argc, char *ar
     
     for(i = 1; i < argc; i++){
         
+        if(!strchr(argv[i], '='))
+            return 0;
         parse_param(argv[i], curr_param);
         
         if(strcmp(curr_param[0]->string, "output") == 0){
