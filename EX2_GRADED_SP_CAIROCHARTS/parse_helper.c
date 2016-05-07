@@ -30,8 +30,10 @@ cairocharts_payload * get_cairocharts_payload(int argc, const char * argv[]){
     add_default_params(my_payload);
     
     /* Add comand line parameters */
-    if(!add_command_line_params(my_payload,argc,argv))
+    if(!add_command_line_params(my_payload,argc,argv)){
+        puts(InvalidComandLineArgument);
         return NULL;
+    }
     
     return my_payload;
 }
@@ -43,71 +45,77 @@ void cairocharts_destroy(cairocharts_payload *  this){
 }
 
 
-void parse_param(char *, char*[]);
+void parse_param(char *, my_string**);
 int store_and_parse_color(float *, char *);
 
 
 int add_command_line_params(cairocharts_payload * my_payload, int argc, char *argv[]){
     /* This will hold the current parameter parsed (e.g ["width","10.0"])*/
-    char *curr_param[2];
+    my_string *curr_param[2];
     
+    
+    curr_param[0] = my_string_init();
+    curr_param[1] = my_string_init();
+
     int i;
     
     for(i = 1; i < argc; i++){
         
         parse_param(argv[i], curr_param);
         
-        if(strcmp(curr_param[0], "output") == 0){
-            my_payload->output = strdup(curr_param[1]);
+        if(strcmp(curr_param[0]->string, "output") == 0){
+            my_payload->output = strdup(curr_param[1]->string);
         }
-        if(strcmp(curr_param[0], "width") == 0){
-            if(sscanf(curr_param[1],"%f",&my_payload->width) == 0)
-                goto parsingError;
+        if(strcmp(curr_param[0]->string, "width") == 0){
+            if(sscanf(curr_param[1]->string,"%f",&my_payload->width) == 0)
+                return 0;
         }
-        if(strcmp(curr_param[0], "height") == 0){
-            if(sscanf(curr_param[1],"%f",&my_payload->height) == 0)
-                goto parsingError;
+        if(strcmp(curr_param[0]->string, "height") == 0){
+            if(sscanf(curr_param[1]->string,"%f",&my_payload->height) == 0)
+                return 0;
         }
-        if(strcmp(curr_param[0], "xmargin") == 0){
-            if(sscanf(curr_param[1],"%f",&my_payload->xmargin) == 0)
-                goto parsingError;
-        }
-        
-        if(strcmp(curr_param[0], "ymargin") == 0){
-            if(sscanf(curr_param[1],"%f",&my_payload->ymargin) == 0)
-                goto parsingError;
-        }
-        if(strcmp(curr_param[0], "fontsize") == 0){
-            my_payload->fontsize = atof(curr_param[1]);
-            if(sscanf(curr_param[1],"%f",&my_payload->fontsize) == 0)
-                goto parsingError;
+        if(strcmp(curr_param[0]->string, "xmargin") == 0){
+            if(sscanf(curr_param[1]->string,"%f",&my_payload->xmargin) == 0)
+                return 0;
         }
         
-        if(strcmp(curr_param[0], "linewidth") == 0){
-            if(sscanf(curr_param[1],"%f",&my_payload->linewidth) == 0)
-                goto parsingError;
+        if(strcmp(curr_param[0]->string, "ymargin") == 0){
+            if(sscanf(curr_param[1]->string,"%f",&my_payload->ymargin) == 0)
+                return 0;
+        }
+        if(strcmp(curr_param[0]->string, "fontsize") == 0){
+            my_payload->fontsize = atof(curr_param[1]->string);
+            if(sscanf(curr_param[1]->string,"%f",&my_payload->fontsize) == 0)
+                return 0;
+        }
+        
+        if(strcmp(curr_param[0]->string, "linewidth") == 0){
+            if(sscanf(curr_param[1]->string,"%f",&my_payload->linewidth) == 0)
+                return 0;
 
         }
         
-        if(strcmp(curr_param[0], "type") == 0){
-            if(strcmp(curr_param[1],"histogram"))
+        if(strcmp(curr_param[0]->string, "type") == 0){
+            if(strcmp(curr_param[1]->string,"histogram") == 0)
                my_payload->type = HISTOGRAM;
+            
+            else if(strcmp(curr_param[1]->string,"xplot") == 0)
+                my_payload->type = XPLOT;
+
 
         }
 
-        if(strcmp(curr_param[0], "color") == 0){
-            if(!store_and_parse_color(my_payload->color,curr_param[1]))
-                goto parsingError;
+        if(strcmp(curr_param[0]->string, "color") == 0){
+            if(!store_and_parse_color(my_payload->color,curr_param[1]->string))
+                return 0;
             
         }
     }
     
+    my_string_destroy(curr_param[0]);
+    my_string_destroy(curr_param[1]);
+    
     return 1;
-    parsingError:
-        puts(InvalidComandLineArgument);
-        return 0;
-    
-    
 }
 
 int store_and_parse_color(float dst[], char *src){
@@ -163,7 +171,6 @@ void print_payload(cairocharts_payload * my_payload){
     puts("----------+-------------");
     
     printf("%10s|%10s\n","output",my_payload->output);
-
     printf("%10s|%10.2f\n","width",my_payload->width);
     printf("%10s|%10.2f\n","height",my_payload->height);
     printf("%10s|%10.2f\n","xmargin",my_payload->xmargin);
@@ -177,9 +184,10 @@ void print_payload(cairocharts_payload * my_payload){
 
 /* This function parse a argv element and store into the second paramam, eg:
  input "output=babbage" -> parsed into ["output","babbage"] */
-void parse_param(char * curr_argv, char * dst[2]){
+void parse_param(char * curr_argv, my_string ** dst){
     
-    dst[0] = strdup(strtok(curr_argv,"="));
-    dst[1] = strdup(strtok(NULL,"="));
+    my_string_copy_str(dst[0], strtok(curr_argv,"="));
+    my_string_copy_str(dst[1], strtok(NULL,"="));
+
     
 }

@@ -12,9 +12,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "my_string.h"
 typedef enum {
     LINE_PLOT,
-    HISTOGRAM
+    HISTOGRAM,
+    XPLOT
 }cairochart_Type;
 
 typedef struct cairocharts_payload{

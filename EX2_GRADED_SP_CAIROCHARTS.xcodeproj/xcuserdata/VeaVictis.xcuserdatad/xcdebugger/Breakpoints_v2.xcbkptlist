@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EX2_GRADED_SP_CAIROCHARTS/draw_helper.c"
-            timestampString = "484219944.514746"
+            timestampString = "484304714.770173"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "230"
-            endingLineNumber = "230"
-            landmarkName = "draw_lines()"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
+            landmarkName = "draw_histogram()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,12 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EX2_GRADED_SP_CAIROCHARTS/parse_helper.c"
-            timestampString = "484218399.543341"
+            timestampString = "484305196.033227"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "164"
-            endingLineNumber = "164"
-            landmarkName = "print_payload()"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
+            landmarkName = "parse_param()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
