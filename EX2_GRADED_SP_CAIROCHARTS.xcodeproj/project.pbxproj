@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D3433BD1CDDF7740023C4DD /* makefile in Sources */ = {isa = PBXBuildFile; fileRef = 0D3433BC1CDDF7740023C4DD /* makefile */; };
 		0D703CBE1CD9E86B008378D1 /* draw_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = 0D703CBC1CD9E86B008378D1 /* draw_helper.c */; };
 		0D7D8E2D1CD62FA0009E7DD4 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 0D7D8E2C1CD62FA0009E7DD4 /* main.c */; };
 		0D7D8E351CD62FAC009E7DD4 /* parse_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = 0D7D8E331CD62FAC009E7DD4 /* parse_helper.c */; };
@@ -27,6 +28,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0D3433BC1CDDF7740023C4DD /* makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = makefile; sourceTree = "<group>"; };
 		0D703CBC1CD9E86B008378D1 /* draw_helper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = draw_helper.c; sourceTree = "<group>"; };
 		0D703CBD1CD9E86B008378D1 /* draw_helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = draw_helper.h; sourceTree = "<group>"; };
 		0D7D8E291CD62FA0009E7DD4 /* EX2_GRADED_SP_CAIROCHARTS */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = EX2_GRADED_SP_CAIROCHARTS; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,6 +71,7 @@
 		0D7D8E2B1CD62FA0009E7DD4 /* EX2_GRADED_SP_CAIROCHARTS */ = {
 			isa = PBXGroup;
 			children = (
+				0D3433BC1CDDF7740023C4DD /* makefile */,
 				0DB0E9091CD8946D001B66F8 /* my_string.c */,
 				0DB0E90A1CD8946D001B66F8 /* my_string.h */,
 				0DB0E9061CD89455001B66F8 /* sentinel_linked_list_int.c */,
@@ -140,6 +143,7 @@
 			files = (
 				0DB0E90B1CD8946D001B66F8 /* my_string.c in Sources */,
 				0D703CBE1CD9E86B008378D1 /* draw_helper.c in Sources */,
+				0D3433BD1CDDF7740023C4DD /* makefile in Sources */,
 				0DB0E9081CD89455001B66F8 /* sentinel_linked_list_int.c in Sources */,
 				0D7D8E2D1CD62FA0009E7DD4 /* main.c in Sources */,
 				0D7D8E351CD62FAC009E7DD4 /* parse_helper.c in Sources */,
