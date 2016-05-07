@@ -47,9 +47,10 @@ int main(int argc, const char * argv[]) {
         puts(ParsinError);
         return EXIT_FAILURE;
     }
+#ifdef DEBUG
     /* print data */
     print_data(my_payload,float_std_sll);
-    
+#endif
     create_cairocharts(my_payload,float_std_sll);
     
     free_memory(my_payload,float_std_sll);
@@ -136,6 +137,7 @@ int store_float_into_sll(sll * my_sll, my_string * std_string, cairochart_Type t
         sll_append(my_sll, curr_point);
         token = strtok(NULL, " ");
     }
+    my_string_destroy(std_string);
     return 1;
 
 }

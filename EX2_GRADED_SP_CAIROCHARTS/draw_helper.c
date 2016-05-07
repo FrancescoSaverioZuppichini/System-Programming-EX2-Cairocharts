@@ -61,9 +61,6 @@ int create_cairocharts(cairocharts_payload * my_payload, sll *float_std_sll){
     
     set_parameters(my_payload,cr);
     get_max(float_std_sll,&max_x,&max_y);
-    printf("Max x: %0.2f, Max y: %0.2f \n",max_x,max_y);
-    /* We need a scale factor in order to plot */
-    printf("Real width %0.2f, height %0.2f\n",real_width,real_height);
     /* Real distance between points */
     scale_x = (real_width - (real_width/10.0))/max_x;
     scale_y = (real_height - (real_height/10.0))/max_y;
@@ -81,7 +78,12 @@ int create_cairocharts(cairocharts_payload * my_payload, sll *float_std_sll){
          since the scaling is done in the same way */
         draw_line_plot(my_payload,float_std_sll,cr,scale_x,scale_y,origin);
     }
+#ifdef DEBUG
+    printf("Max x: %0.2f, Max y: %0.2f \n",max_x,max_y);
+    /* We need a scale factor in order to plot */
+    printf("Real width %0.2f, height %0.2f\n",real_width,real_height);
     printf("Scaled by a factor of (%0.2f,%0.2f)\n",scale_x,scale_y);
+#endif
 
     draw_axis(my_payload,origin,cr,real_width,real_height);
     
@@ -204,8 +206,9 @@ void draw_lines(cairocharts_payload * my_payload ,cairo_point * origin, cairo_t 
     curr_pos->x -= (my_payload->linewidth /2.0)/2.0;
     
     cairo_set_line_width (cr, my_payload->linewidth/2.0);
-    
+#ifdef DEBUG
     printf("step,distance X (%0.2f,%0.2f) -- Y (%0.2f,%0.2f)\n",step_on_x,distance_on_x,step_on_y,distance_on_y);
+#endif
 
     /* draw lines on X axis */
     for (i = 0; i<11; i++) {

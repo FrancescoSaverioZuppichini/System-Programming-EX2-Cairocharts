@@ -21,7 +21,7 @@ cairocharts_payload * get_cairocharts_payload(int argc, const char * argv[]){
     
     if(!argv)
         return NULL;
-    my_payload = malloc(sizeof(my_payload));
+    my_payload = malloc(sizeof(cairocharts_payload));
     
     if(!my_payload)
         return NULL;
