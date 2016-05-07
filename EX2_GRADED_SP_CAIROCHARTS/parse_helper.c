@@ -1,4 +1,3 @@
-//
 //  parse_helper.c
 //  EX2_GRADED_SP_CAIROCHARTS
 //
@@ -67,6 +66,10 @@ int add_command_line_params(cairocharts_payload * my_payload, int argc, char *ar
         
         if(strcmp(curr_param[0]->string, "output") == 0){
             my_payload->output = strdup(curr_param[1]->string);
+        }
+        if(strcmp(curr_param[0]->string, "avg_window") == 0){
+            if(sscanf(curr_param[1]->string,"%i",&my_payload->avg_window) == 0)
+                return 0;
         }
         if(strcmp(curr_param[0]->string, "width") == 0){
             if(sscanf(curr_param[1]->string,"%f",&my_payload->width) == 0)
@@ -149,6 +152,8 @@ void add_default_params(cairocharts_payload * my_payload){
 
     my_payload->output = strdup(default_output);
     
+    my_payload->avg_window = 0;
+    
     my_payload->type = LINE_PLOT;
 
     my_payload->width = 4.0 * 72;
@@ -173,6 +178,7 @@ void print_payload(cairocharts_payload * my_payload){
     puts("----------+-------------");
     
     printf("%10s|%10s\n","output",my_payload->output);
+    printf("%10s|%10i\n","avg_windows",my_payload->avg_window);
     printf("%10s|%10.2f\n","width",my_payload->width);
     printf("%10s|%10.2f\n","height",my_payload->height);
     printf("%10s|%10.2f\n","xmargin",my_payload->xmargin);

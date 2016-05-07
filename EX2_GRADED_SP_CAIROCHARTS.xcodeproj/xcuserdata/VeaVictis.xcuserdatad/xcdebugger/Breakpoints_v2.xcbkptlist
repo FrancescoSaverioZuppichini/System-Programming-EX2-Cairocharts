@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EX2_GRADED_SP_CAIROCHARTS/draw_helper.c"
-            timestampString = "484304714.770173"
+            filePath = "EX2_GRADED_SP_CAIROCHARTS/main.c"
+            timestampString = "484339958.201644"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
-            landmarkName = "draw_histogram()"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "main()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EX2_GRADED_SP_CAIROCHARTS/parse_helper.c"
-            timestampString = "484309072.864377"
+            filePath = "EX2_GRADED_SP_CAIROCHARTS/main.c"
+            timestampString = "484343879.466778"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
-            landmarkName = "add_command_line_params()"
+            startingLineNumber = "162"
+            endingLineNumber = "162"
+            landmarkName = "smoothing_average()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

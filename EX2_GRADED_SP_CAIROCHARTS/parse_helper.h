@@ -22,6 +22,8 @@ typedef enum {
 typedef struct cairocharts_payload{
     /* filename output name (defaut: "chart.pdf") */
     char  * output;
+    /* smoothing paramter */
+    int avg_window;
     /* width of the all page in points (default: 4in)*/
     float width;
     /* height of the hole page in points (default: 3in)*/

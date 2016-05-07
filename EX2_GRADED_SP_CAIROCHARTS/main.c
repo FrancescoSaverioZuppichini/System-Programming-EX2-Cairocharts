@@ -20,6 +20,7 @@
 void free_memory(cairocharts_payload *, sll *);
 /* This function takes the data from the stdio and it stores into the custom sentinel linked list */
 int get_data_from_std(sll *,cairochart_Type);
+void smoothing_average(sll ** ,int );
 void print_data(cairocharts_payload *, sll * );
 
 void my_print(void *node){
@@ -46,6 +47,10 @@ int main(int argc, const char * argv[]) {
     if(!get_data_from_std(float_std_sll,my_payload->type)){
         puts(ParsinError);
         return EXIT_FAILURE;
+    }
+    
+    if(my_payload->avg_window > 1){
+        smoothing_average(&float_std_sll,my_payload->avg_window);
     }
 #ifdef DEBUG
     /* print data */
@@ -140,4 +145,36 @@ int store_float_into_sll(sll * my_sll, my_string * std_string, cairochart_Type t
     my_string_destroy(std_string);
     return 1;
 
+}
+
+void smoothing_average(sll ** my_sll,int avg_windos){
+    sll *smoothed_sll;
+    sll **temp_sll;
+    sll_node *pos;
+    sll_node *temp_pos;
+    int i,k;
+    
+    i = 0;
+    smoothed_sll = sll_init(sizeof(cairo_point));
+    for(pos = (*my_sll)->head->next; pos != (*my_sll)->head && i < (*my_sll)->size - avg_windos ; pos = pos->next,i++){
+        /* this node will holds the value to add to the new sll */
+        cairo_point *  temp = sll_get_data(pos, cairo_point);
+        for(k = 0, temp_pos = pos->next; k < avg_windos - 1 && temp_pos != (*my_sll)->head ;k++, temp_pos = temp_pos->next){
+            /* get che current node from the sll */
+            cairo_point * curr_cairo_point = sll_get_data(temp_pos, cairo_point);
+            temp->x += curr_cairo_point->x;
+            temp->y += curr_cairo_point->y;
+        }
+        temp->x /= avg_windos;
+        temp->y /= avg_windos;
+        sll_append(smoothed_sll, temp);
+    }
+    
+    /* swap the pointers */
+    *temp_sll = *my_sll;
+    *my_sll = smoothed_sll;
+    
+    sll_destroy(*temp_sll);
+
+    
 }

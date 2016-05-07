@@ -135,7 +135,6 @@ void draw_line_plot(cairocharts_payload * my_payload, sll *my_sll, cairo_t *cr,f
     
 
     cairo_set_line_width (cr, my_payload->linewidth * 2);
-
     cairo_new_path(cr);
     
     
