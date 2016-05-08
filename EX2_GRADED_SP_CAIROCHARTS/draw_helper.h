@@ -10,7 +10,7 @@
 #define draw_helper_h
 
 #include <stdio.h>
-#include "sentinel_linked_list_int.h"
+#include "sentinel_linked_list.h"
 #include "parse_helper.h"
 #include <cairo.h>
 #include <cairo-pdf.h>

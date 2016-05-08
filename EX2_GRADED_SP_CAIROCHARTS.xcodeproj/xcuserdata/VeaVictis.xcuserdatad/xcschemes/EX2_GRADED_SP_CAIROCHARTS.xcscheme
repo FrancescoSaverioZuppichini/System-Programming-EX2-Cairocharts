@@ -63,7 +63,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "avg_window=2"
+            argument = "avg_window=2 type=xplot"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

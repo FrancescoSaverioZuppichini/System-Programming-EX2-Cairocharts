@@ -11,7 +11,7 @@
 #include <cairo.h>
 #include <cairo-pdf.h>
 #include "my_string.h"
-#include "sentinel_linked_list_int.h"
+#include "sentinel_linked_list.h"
 #include "draw_helper.h"
 
 #define ParsinError "Error during parsing the std input"
@@ -34,31 +34,31 @@ int main(int argc, const char * argv[]) {
     /* This stuct will holds all the cmmd params */
     cairocharts_payload * my_payload;
     /* This sentinel linking list will holds the float points */
-    sll *float_std_sll;
+    sll *cairo_point_sll;
     
-    float_std_sll = sll_init(sizeof(cairo_point));
-    if(!float_std_sll)
+    cairo_point_sll = sll_init(sizeof(cairo_point));
+    if(!cairo_point_sll)
         return EXIT_FAILURE;
     
     /* get data */
     my_payload = get_cairocharts_payload(argc,argv);
     if(!my_payload)
         return EXIT_FAILURE;
-    if(!get_data_from_std(float_std_sll,my_payload->type)){
+    if(!get_data_from_std(cairo_point_sll,my_payload->type)){
         puts(ParsinError);
         return EXIT_FAILURE;
     }
     
     if(my_payload->avg_window > 1){
-        smoothing_average(&float_std_sll,my_payload->avg_window);
+        smoothing_average(&cairo_point_sll,my_payload->avg_window);
     }
 #ifdef DEBUG
     /* print data */
-    print_data(my_payload,float_std_sll);
+    print_data(my_payload,cairo_point_sll);
 #endif
-    create_cairocharts(my_payload,float_std_sll);
+    create_cairocharts(my_payload,cairo_point_sll);
     
-    free_memory(my_payload,float_std_sll);
+    free_memory(my_payload,cairo_point_sll);
     
     return EXIT_SUCCESS;
 }
@@ -156,7 +156,7 @@ void smoothing_average(sll ** my_sll,int avg_windos){
     
     i = 0;
     smoothed_sll = sll_init(sizeof(cairo_point));
-    for(pos = (*my_sll)->head->next; pos != (*my_sll)->head && i < (*my_sll)->size - avg_windos ; pos = pos->next,i++){
+    for(pos = (*my_sll)->head->next; pos != (*my_sll)->head && i < (*my_sll)->size - (avg_windos - 1); pos = pos->next,i++){
         /* this node will holds the value to add to the new sll */
         cairo_point *  temp = sll_get_data(pos, cairo_point);
         for(k = 0, temp_pos = pos->next; k < avg_windos - 1 && temp_pos != (*my_sll)->head ;k++, temp_pos = temp_pos->next){
