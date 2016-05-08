@@ -176,10 +176,10 @@ void smoothing_average(sll ** my_sll,const int avg_windos){
         for(k = 0, temp_pos = pos->next; k < avg_windos - 1 && temp_pos != (*my_sll)->head ;k++, temp_pos = temp_pos->next){
             /* get che current node from the sll */
             cairo_point * curr_cairo_point = sll_get_data(temp_pos, cairo_point);
-            temp->x += curr_cairo_point->x;
+//            temp->x += curr_cairo_point->x;
             temp->y += curr_cairo_point->y;
         }
-        temp->x /= avg_windos;
+//        temp->x /= avg_windos;
         temp->y /= avg_windos;
         sll_append(smoothed_sll, temp);
     }

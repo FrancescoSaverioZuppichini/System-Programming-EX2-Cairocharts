@@ -18,10 +18,13 @@ if(len(sys.argv) > 4):
 
 def increase_sequence_generator(n,range):
     increasingSequence = []
-    increasingSequence.append(randint(0,range//n))
+    step = range//n
+    delta = step
+    increasingSequence.append(randint(0,delta))
 
     while(n > 1):
-        increasingSequence.append(randint(increasingSequence[-1],range//n))
+        delta += step
+        increasingSequence.append(randint((increasingSequence[-1]+1),delta))
         n -= 1
 
     return increasingSequence
@@ -37,7 +40,13 @@ def positive_sequence_generator(n,range):
 def x_y_sequence_generator(n,limit):
     A = increase_sequence_generator(n,limit)
     B = positive_sequence_generator(n,limit)
-    for i in range(len(A)):
+
+    size = len(A)
+
+    if len(B) < size:
+        size = len(B)
+
+    for i in range(size):
         A[i] = str(A[i]) + ',' + str(B[i])
 
     return A
@@ -67,3 +76,4 @@ def create_input_file(name=None,n=None,limit=None,type=None):
         file.write(str(number) + " ")
 
 create_input_file(name=name,n=n,limit=limit,type=type)
+# create_input_file(name="test",n=50,limit=150,type="xy")
