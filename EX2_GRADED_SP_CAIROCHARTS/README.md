@@ -56,11 +56,21 @@ In my implementation the returning value *1* means true and *0* means false. Boo
 - parsing float error (e.g with=a) in argv and std
 - partial command line (e.g with=)
 - no points
+- memory allocation errors
+
+I did an expection for the output, if a user doesn't put the ".pdf" the program will add it automatically
 
 ####Debug
 You can pass the macro *DEBUG* in order to see usefull debug print
 ####Make
-I also provide a *makefile* that can be usefull to speed up the correction.
+I also provide a *makefile* that can be usefull to speed up the correction. You only need to run 
 
+```
+make
+```
+inside this folder. If you want to switch to debug mode just type
 
+```
+make debug
+```
 

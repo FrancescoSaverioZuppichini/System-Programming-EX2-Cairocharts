@@ -22,7 +22,7 @@
 void free_memory(cairocharts_payload *, sll *);
 /* This function takes the data from the stdio and it stores into the custom sentinel linked list */
 int get_data_from_std(sll *,cairochart_Type);
-void smoothing_average(sll ** ,int );
+void smoothing_average(sll ** ,const int );
 void print_data(cairocharts_payload *, sll * );
 
 void my_print(void *node){
@@ -159,7 +159,7 @@ int store_float_into_sll(sll * my_sll, my_string * std_string, cairochart_Type t
 
 }
 
-void smoothing_average(sll ** my_sll,int avg_windos){
+void smoothing_average(sll ** my_sll,const int avg_windos){
     sll *smoothed_sll;
     sll **temp_sll;
     sll_node *pos;

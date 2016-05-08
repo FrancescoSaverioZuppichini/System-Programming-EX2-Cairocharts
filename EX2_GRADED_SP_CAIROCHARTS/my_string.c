@@ -23,9 +23,9 @@ my_string * my_string_init(){
     return my_new_string;
 }
 
-char *  my_string_add(my_string * this,char el){
+char *  my_string_add(my_string * this,const char el){
 
-    if(this->inner_size == this->cap - 1){
+    if(this->inner_size == this->cap -1){
         this->cap *= 2;
         this->string = realloc(this->string,this->cap);
         if(!this->string)
@@ -34,14 +34,14 @@ char *  my_string_add(my_string * this,char el){
     this->string[this->size] = el;
     if(this->size == this->inner_size )
         this->inner_size++;
-    this->size++;
-    if(el != '\0')
+    if(el != '\0'){
+        this->size++;
         this->string[this->size] = '\0';
-    
+    }
     return this->string;
 }
 
-char *  my_string_add_str(my_string *this,char* src){
+char *  my_string_add_str(my_string *this,const char* src){
     int i;
     if(this->inner_size == 0)
         return NULL;
@@ -53,7 +53,7 @@ char *  my_string_add_str(my_string *this,char* src){
 }
 
 
-char * my_string_copy_str(my_string * this, char * src){
+char * my_string_copy_str(my_string * this,const char * src){
     size_t new_size;
     int i;
     unsigned long len;

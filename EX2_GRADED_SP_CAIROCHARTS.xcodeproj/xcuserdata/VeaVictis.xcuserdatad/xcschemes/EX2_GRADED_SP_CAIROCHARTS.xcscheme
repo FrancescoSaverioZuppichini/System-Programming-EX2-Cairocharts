@@ -63,7 +63,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "avg_window=2 type=xplot "
+            argument = "width=800 heigth=800 output=test.pdf"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

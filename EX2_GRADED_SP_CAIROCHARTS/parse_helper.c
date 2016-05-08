@@ -13,7 +13,7 @@
 #define InvalidComandLineArgument "Error during parsing command line arguments, exit program"
 
 void add_default_params(cairocharts_payload *);
-int add_command_line_params(cairocharts_payload *, int, char*[]);
+int add_command_line_params(cairocharts_payload *, int, const char*[]);
 
 cairocharts_payload * get_cairocharts_payload(int argc, const char * argv[]){
     cairocharts_payload * my_payload;
@@ -44,15 +44,14 @@ void cairocharts_destroy(cairocharts_payload *  this){
 }
 
 
-int parse_param(char *, my_string**);
+int parse_param(const char *, my_string**);
 int store_and_parse_color(float *, char *);
+void store_ouput(cairocharts_payload *, const char *);
 
-
-int add_command_line_params(cairocharts_payload * my_payload, int argc, char *argv[]){
+int add_command_line_params(cairocharts_payload * my_payload, int argc, const char *argv[]){
     /* This will hold the current parameter parsed (e.g ["width","10.0"])*/
     my_string *curr_param[2];
     int error_code,i;
-
     
     curr_param[0] = my_string_init();
     curr_param[1] = my_string_init();
@@ -66,7 +65,7 @@ int add_command_line_params(cairocharts_payload * my_payload, int argc, char *ar
             return 0;
         
         if(strcmp(curr_param[0]->string, "output") == 0){
-            my_payload->output = strdup(curr_param[1]->string);
+            store_ouput(my_payload,curr_param[1]->string);
         }
         if(strcmp(curr_param[0]->string, "avg_window") == 0){
             if(sscanf(curr_param[1]->string,"%i",&my_payload->avg_window) == 0)
@@ -124,6 +123,21 @@ int add_command_line_params(cairocharts_payload * my_payload, int argc, char *ar
     return error_code;
 }
 
+void store_ouput(cairocharts_payload * my_payload, const char *output){
+    my_string * output_my_string;
+    
+    output_my_string = my_string_init();
+    
+    my_string_copy_str(output_my_string, output);
+    if(strstr(output, ".pdf") == NULL){
+        my_string_add_str(output_my_string, ".pdf");
+    }
+        
+    my_payload->output = malloc(output_my_string->size + 1);
+    strcpy(my_payload->output, output_my_string->string);
+}
+
+
 int store_and_parse_color(float dst[], char *src){
     int i,error_code;
     char *token;
@@ -176,30 +190,36 @@ void add_default_params(cairocharts_payload * my_payload){
 }
 
 void print_payload(cairocharts_payload * my_payload){
-    printf("%10s|%10s\n","Param","Value");
-    puts("----------+-------------");
+    printf("%12s|%10s\n","Param","Value");
+    puts("------------+-------------");
     
-    printf("%10s|%10s\n","output",my_payload->output);
-    printf("%10s|%10i\n","avg_windows",my_payload->avg_window);
-    printf("%10s|%10.2f\n","width",my_payload->width);
-    printf("%10s|%10.2f\n","height",my_payload->height);
-    printf("%10s|%10.2f\n","xmargin",my_payload->xmargin);
-    printf("%10s|%10.2f\n","ymargin",my_payload->ymargin);
-    printf("%10s|%10.2f\n","fontsize",my_payload->fontsize);
-    printf("%10s|%10.2f\n","linewidth",my_payload->linewidth);
-    printf("%10s|%4.2f %3.2f %3.2f\n","color",my_payload->color[0],my_payload->color[1],my_payload->color[2]);
+    printf("%12s|%10s\n","output",my_payload->output);
+    printf("%12s|%10i\n","avg_windows",my_payload->avg_window);
+    printf("%12s|%10.2f\n","width",my_payload->width);
+    printf("%12s|%10.2f\n","height",my_payload->height);
+    printf("%12s|%10.2f\n","xmargin",my_payload->xmargin);
+    printf("%12s|%10.2f\n","ymargin",my_payload->ymargin);
+    printf("%12s|%10.2f\n","fontsize",my_payload->fontsize);
+    printf("%12s|%10.2f\n","linewidth",my_payload->linewidth);
+    printf("%12s|%4.2f %3.2f %3.2f\n","color",my_payload->color[0],my_payload->color[1],my_payload->color[2]);
     
     
 }
 
 /* This function parse a argv element and store into the second paramam, eg:
  input "output=babbage" -> parsed into ["output","babbage"] */
-int parse_param(char * curr_argv, my_string ** dst){
+int parse_param(const char * curr_argv, my_string ** dst){
     int error_code;
-
+    char *temp_argv;
+    
     error_code = 1;
+    temp_argv = malloc(strlen(curr_argv) + 1);
+    strcpy(temp_argv, curr_argv);
+    
+    if(!temp_argv)
+        error_code = 0;
 
-    if(my_string_copy_str(dst[0], strtok(curr_argv,"=")) == NULL)
+    if(my_string_copy_str(dst[0], strtok(temp_argv,"=")) == NULL)
         error_code = 0;
     if(my_string_copy_str(dst[1], strtok(NULL,"=")) == NULL)
         error_code = 0;
