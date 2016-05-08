@@ -135,6 +135,7 @@ void store_ouput(cairocharts_payload * my_payload, const char *output){
         
     my_payload->output = malloc(output_my_string->size + 1);
     strcpy(my_payload->output, output_my_string->string);
+    my_string_destroy(output_my_string);
 }
 
 
