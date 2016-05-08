@@ -16,6 +16,8 @@
 
 #define ParsinError "Error during parsing the std input"
 #define InvalidXError "You can't pass a x coordinate in this graph type"
+#define NoPointsError "The graph has no points"
+
 
 void free_memory(cairocharts_payload *, sll *);
 /* This function takes the data from the stdio and it stores into the custom sentinel linked list */
@@ -84,22 +86,29 @@ int store_float_into_sll(sll *, my_string *,cairochart_Type);
 int get_data_from_std(sll * my_sll,cairochart_Type type){
     my_string * std_string;
     char c;
-    
+    int error_code;
+
+    error_code = 1;
+
     std_string = my_string_init();
     
     if(!std_string)
-        return 0;
+        error_code = 0;
     
     for(;(c = getchar());){
         if(c == '\n' || c == EOF){
             break;
         }
         else if(!my_string_add(std_string, c))
-                return 0;
+            error_code = 0;
     }
     if(!store_float_into_sll(my_sll,std_string,type))
-        return 0;
-    return 1;
+        error_code = 0;
+    if(my_sll->size == 0){
+        puts(NoPointsError);
+        error_code = 0;
+    }
+    return error_code;
 }
 
 int store_float_into_sll(sll * my_sll, my_string * std_string, cairochart_Type type ){
@@ -112,10 +121,12 @@ int store_float_into_sll(sll * my_sll, my_string * std_string, cairochart_Type t
     int there_is_x;
     /* This will hold the current point read */
     cairo_point * curr_point;
+    int error_code;
 
+    error_code = 1;
     curr_point = malloc(sizeof(cairo_point));
     if(!curr_point)
-        return 0;
+        error_code = 0;
     token = strtok(std_string->string, " ");
     while(token){
         there_is_x = (strchr(token,',') != NULL);
@@ -123,19 +134,19 @@ int store_float_into_sll(sll * my_sll, my_string * std_string, cairochart_Type t
         if(there_is_x && type == XPLOT){
             x_y_token = strdup(token);
             if(sscanf(strtok_r(x_y_token,",",&reserve),"%f",&curr_point->x) == 0)
-                return 0;
+                error_code = 0;
             if(sscanf(strtok_r(reserve,",",&reserve),"%f",&curr_point->y) == 0)
-                return 0;
+                error_code = 0;
         }
         else if(there_is_x){
             /* x should be allowed ONLY in XPLOT*/
             puts(InvalidXError);
-            return 0;
+            error_code = 0;
         }
         /* up to here there are only a Y in the current token */
         else{
             if(sscanf(token, "%f", &curr_point->y) == 0)
-                return 0;
+                error_code = 0;
             /* default */
             curr_point->x = my_sll->size;
         }
@@ -143,7 +154,7 @@ int store_float_into_sll(sll * my_sll, my_string * std_string, cairochart_Type t
         token = strtok(NULL, " ");
     }
     my_string_destroy(std_string);
-    return 1;
+    return error_code;
 
 }
 

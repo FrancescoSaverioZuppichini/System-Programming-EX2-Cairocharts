@@ -44,59 +44,60 @@ void cairocharts_destroy(cairocharts_payload *  this){
 }
 
 
-void parse_param(char *, my_string**);
+int parse_param(char *, my_string**);
 int store_and_parse_color(float *, char *);
 
 
 int add_command_line_params(cairocharts_payload * my_payload, int argc, char *argv[]){
     /* This will hold the current parameter parsed (e.g ["width","10.0"])*/
     my_string *curr_param[2];
-    
+    int error_code,i;
+
     
     curr_param[0] = my_string_init();
     curr_param[1] = my_string_init();
 
-    int i;
-    
+    error_code = 1;
     for(i = 1; i < argc; i++){
         
         if(!strchr(argv[i], '='))
             return 0;
-        parse_param(argv[i], curr_param);
+        if(!parse_param(argv[i], curr_param))
+            return 0;
         
         if(strcmp(curr_param[0]->string, "output") == 0){
             my_payload->output = strdup(curr_param[1]->string);
         }
         if(strcmp(curr_param[0]->string, "avg_window") == 0){
             if(sscanf(curr_param[1]->string,"%i",&my_payload->avg_window) == 0)
-                return 0;
+                error_code = 0;
         }
         if(strcmp(curr_param[0]->string, "width") == 0){
             if(sscanf(curr_param[1]->string,"%f",&my_payload->width) == 0)
-                return 0;
+                error_code = 0;
         }
         if(strcmp(curr_param[0]->string, "height") == 0){
             if(sscanf(curr_param[1]->string,"%f",&my_payload->height) == 0)
-                return 0;
+                error_code = 0;
         }
         if(strcmp(curr_param[0]->string, "xmargin") == 0){
             if(sscanf(curr_param[1]->string,"%f",&my_payload->xmargin) == 0)
-                return 0;
+                error_code = 0;
         }
         
         if(strcmp(curr_param[0]->string, "ymargin") == 0){
             if(sscanf(curr_param[1]->string,"%f",&my_payload->ymargin) == 0)
-                return 0;
+                error_code = 0;
         }
         if(strcmp(curr_param[0]->string, "fontsize") == 0){
             my_payload->fontsize = atof(curr_param[1]->string);
             if(sscanf(curr_param[1]->string,"%f",&my_payload->fontsize) == 0)
-                return 0;
+                error_code = 0;
         }
         
         if(strcmp(curr_param[0]->string, "linewidth") == 0){
             if(sscanf(curr_param[1]->string,"%f",&my_payload->linewidth) == 0)
-                return 0;
+                error_code = 0;
 
         }
         
@@ -112,7 +113,7 @@ int add_command_line_params(cairocharts_payload * my_payload, int argc, char *ar
 
         if(strcmp(curr_param[0]->string, "color") == 0){
             if(!store_and_parse_color(my_payload->color,curr_param[1]->string))
-                return 0;
+                error_code = 0;
             
         }
     }
@@ -120,29 +121,30 @@ int add_command_line_params(cairocharts_payload * my_payload, int argc, char *ar
     my_string_destroy(curr_param[0]);
     my_string_destroy(curr_param[1]);
     
-    return 1;
+    return error_code;
 }
 
 int store_and_parse_color(float dst[], char *src){
-    int i;
+    int i,error_code;
     char *token;
     float to_store;
     
     i = 0;
+    error_code = 1;
     token = strtok(src, ",");
     while(token) {
         
         if(sscanf(token,"%f",&to_store) == 0)
-            return 0;
+            error_code = 0;
         else if(to_store > 1 || to_store < 0){
             puts("Color number must be between 0 and 1");
-            return 0;
+            error_code = 0;
         }
         dst[i] =  to_store;
         token = strtok(NULL, ",");
         i++;
     }
-    return 1;
+    return error_code;
 }
 
 
@@ -192,10 +194,15 @@ void print_payload(cairocharts_payload * my_payload){
 
 /* This function parse a argv element and store into the second paramam, eg:
  input "output=babbage" -> parsed into ["output","babbage"] */
-void parse_param(char * curr_argv, my_string ** dst){
-    
-    my_string_copy_str(dst[0], strtok(curr_argv,"="));
-    my_string_copy_str(dst[1], strtok(NULL,"="));
+int parse_param(char * curr_argv, my_string ** dst){
+    int error_code;
 
-    
+    error_code = 1;
+
+    if(my_string_copy_str(dst[0], strtok(curr_argv,"=")) == NULL)
+        error_code = 0;
+    if(my_string_copy_str(dst[1], strtok(NULL,"=")) == NULL)
+        error_code = 0;
+
+    return error_code;
 }

@@ -61,6 +61,7 @@ int create_cairocharts(cairocharts_payload * my_payload, sll *float_std_sll){
     
     set_parameters(my_payload,cr);
     get_max(float_std_sll,&max_x,&max_y);
+    
     /* Real distance between points */
     scale_x = (real_width - (real_width/10.0))/max_x;
     scale_y = (real_height - (real_height/10.0))/max_y;
@@ -124,7 +125,6 @@ void draw_histogram(cairocharts_payload * my_payload, sll *my_sll, cairo_t *cr,f
         cairo_line_to (cr, curr_cairo_point->x +  scale_x ,origin->y);
     }
     
-//    cairo_set_line_join(cr, CAIRO_LINE_JOIN_ROUND);
     cairo_stroke (cr);
 
 }
