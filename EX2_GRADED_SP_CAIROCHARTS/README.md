@@ -51,7 +51,13 @@ In the histogram we do more or less the same action done in *lineplot* but the w
 Axis are drawn into *draw_axis* and tick into *draw_lines*.
 
 ####Error handling
-In my implementation the returning value *1* means true and *0* means false. Booth commandline errors and std input are handled by shutting down the program.
+In my implementation the returning value *1* means true and *0* means false. Booth commandline errors and std input are handled by shutting down the program. This are the error handled:
+
+- parsing float error (e.g with=a) in argv and std
+- partial command line (e.g with=)
+- no points
+
+
 
 
 
