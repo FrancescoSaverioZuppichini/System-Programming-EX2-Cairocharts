@@ -57,7 +57,10 @@ In my implementation the returning value *1* means true and *0* means false. Boo
 - partial command line (e.g with=)
 - no points
 
-
+####Debug
+You can pass the macro *DEBUG* in order to see usefull debug print
+####Make
+I also provide a *makefile* that can be usefull to speed up the correction.
 
 
 

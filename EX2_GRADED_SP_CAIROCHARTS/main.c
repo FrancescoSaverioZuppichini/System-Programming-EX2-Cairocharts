@@ -142,6 +142,7 @@ int store_float_into_sll(sll * my_sll, my_string * std_string, cairochart_Type t
             /* x should be allowed ONLY in XPLOT*/
             puts(InvalidXError);
             error_code = 0;
+            break;
         }
         /* up to here there are only a Y in the current token */
         else{
@@ -164,6 +165,8 @@ void smoothing_average(sll ** my_sll,int avg_windos){
     sll_node *pos;
     sll_node *temp_pos;
     int i,k;
+    
+    temp_sll = malloc(sizeof(sll *));
     
     i = 0;
     smoothed_sll = sll_init(sizeof(cairo_point));
