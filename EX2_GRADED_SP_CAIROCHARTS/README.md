@@ -44,9 +44,11 @@ This is a personal implementation of a String object, it is used to store the st
 https://github.com/FrancescoSaverioZuppichini/String-Implementation-C
 
 ####Line plot
-Line plot is used for the standard and the xplot graph type. It is created by function *draw\_line\_plot*. This function iterate all over the linked list and for every point into is normalized by calling *normalize_point*. Then it draws the graph using cairo API
+Line plot is used for the standard and the xplot graph type. It is created by function *draw\_line\_plot*. This function iterate all over the linked list and for every point into is normalized by calling *normalize_point*. Then it draws the graph using cairo API. 
+You can pass "type=lineplot" for a normal graph or "type=xplot" for the x and y version
 ####Histogram
 In the histogram we do more or less the same action done in *lineplot* but the witdh is incremented by "one" scaled point and, of course, the rectangle are drawn.
+You can pass "type=histogram" to trigger this graph
 ####Axis and ticks
 Axis are drawn into *draw_axis* and tick into *draw_lines*.
 
